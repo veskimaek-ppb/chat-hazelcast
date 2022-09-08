@@ -1,4 +1,4 @@
-package com.example.chat.repository;
+package com.example.chat.repository.hz;
 
 import com.example.chat.domain.ChatMessage;
 import org.springframework.data.keyvalue.repository.KeyValueRepository;

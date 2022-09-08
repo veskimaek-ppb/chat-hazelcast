@@ -1,7 +1,11 @@
 package com.example.chat;
 
+import com.example.chat.repository.hz.ChatMessageRepository;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 /**
@@ -9,6 +13,12 @@ import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepos
  * specific implementation of the underlying Key-Value store.
  */
 @Configuration
-@EnableHazelcastRepositories(basePackages = {"com.example.chat"})
+@EnableHazelcastRepositories(basePackages = {"com.example.chat.repository.hz"})
+@EnableJpaRepositories(excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+                ChatMessageRepository.class
+        }
+        )
+})
 public class CommonConfiguration {
 }

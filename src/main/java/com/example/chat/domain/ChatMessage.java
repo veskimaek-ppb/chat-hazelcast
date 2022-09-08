@@ -1,20 +1,22 @@
 package com.example.chat.domain;
 
-import com.example.chat.Constants;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Data
-@KeySpace("chatmessage")
+@Entity
+@KeySpace
 public class ChatMessage implements Comparable<ChatMessage>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String message;
     @Id
+    @javax.persistence.Id
     private Long time;
 
     public int compareTo(ChatMessage that) {
