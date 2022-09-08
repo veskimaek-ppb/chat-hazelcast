@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-public class HazelcastServerConfiguration {
+public class DataSourceConfiguration {
 
     @Value("${spring.datasource.password}")
     private String password;

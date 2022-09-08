@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * other, starting from port 5701 and upwards.
  */
 @Configuration
-public class ServerConfiguration {
+public class HazelcastConfiguration {
 
     /**
      * Create a Hazelcast server as a Spring bean.
@@ -26,7 +26,6 @@ public class ServerConfiguration {
     @Bean
     public HazelcastInstance hazelcastInstance() {
         Config config = new ClasspathXmlConfig("hazelcast.xml");
-
         return Hazelcast.newHazelcastInstance(config);
     }
 }
