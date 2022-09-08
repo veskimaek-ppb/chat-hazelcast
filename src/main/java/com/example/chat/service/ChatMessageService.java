@@ -1,9 +1,10 @@
 package com.example.chat.service;
 
-import com.example.chat.Constants;
 import com.example.chat.domain.ChatMessage;
-import com.example.chat.repository.ChatMessageRepository;
+import com.example.chat.repository.ChatJPARepository;
+import com.example.chat.repository.hz.ChatMessageRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,12 +16,14 @@ import java.util.Random;
 public class ChatMessageService {
 
     @Resource
-    private ChatMessageRepository elementRepository;
+    private ChatMessageRepository chatMessageRepository;
+    @Autowired
+    protected ChatJPARepository chatJPARepository;
 
     Random random = new Random();
 
     public Iterable<ChatMessage> findChatMessagesAfterTimeSorted(final long fromTime) {
-        return this.elementRepository.findByTimeGreaterThanOrderByTimeAsc(fromTime);
+        return this.chatMessageRepository.findByTimeGreaterThanOrderByTimeAsc(fromTime);
     }
 
     public int load() {
@@ -28,7 +31,7 @@ public class ChatMessageService {
 
         // Atomic number, Symbol, Name, Group [optional], Period, Atomic Weight
         for (int i = 0; i < 100; i++) {
-            ChatMessage element = new ChatMessage();
+            ChatMessage chatMessage = new ChatMessage();
 
             long time = System.currentTimeMillis();
             if (random.nextBoolean()) {
@@ -36,12 +39,13 @@ public class ChatMessageService {
             } else {
                 time -= random.nextInt(600 * 1000); // up to 10 minutes in past
             }
-            element.setTime(time);
+            chatMessage.setTime(time);
             Instant instant = Instant.ofEpochMilli(time);
-            element.setMessage("Message at " + instant.toString());
+            chatMessage.setMessage("Message at " + instant.toString());
 
-            log.trace("load(): {}", element);
-            this.elementRepository.save(element);
+            log.trace("load(): {}", chatMessage);
+            this.chatMessageRepository.save(chatMessage);
+            this.chatJPARepository.save(chatMessage);
             count++;
         }
 
